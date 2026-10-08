@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lp1.caepe.com.br/sitemap.xml
