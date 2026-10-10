@@ -35,7 +35,8 @@
 <!-- Fontes hospedadas no próprio site (sem Google Fonts = menos conexões, carregamento mais rápido) -->
 <link rel="preload" href="fonts/montserrat-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="assets/dra-caroline-hero.webp" imagesrcset="assets/dra-caroline-hero-600.webp 600w, assets/dra-caroline-hero.webp 900w" imagesizes="(max-width:880px) 100vw, 58vw" fetchpriority="high">
+<link rel="preload" as="image" href="assets/dra-caroline-hero-mobile.webp" media="(max-width:880px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/dra-caroline-hero.webp" media="(min-width:881px)" fetchpriority="high">
 
 <!-- ============================================================
      CONFIGURAÇÃO — edite só este bloco
@@ -159,6 +160,7 @@ strong{font-weight:600}
 /* ========== 01 HERO ========== */
 .hero{position:relative;background:linear-gradient(90deg,#03203F 0%,#021730 40%,#0A1018 72%,#0B0E12 100%);color:var(--white);overflow:hidden;height:100vh;height:100svh;min-height:600px;max-height:1100px;display:flex;flex-direction:column}
 .hero__photo{position:absolute;top:0;right:0;bottom:0;width:58%;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 18%,#000 46%),linear-gradient(0deg,transparent 0%,#000 22%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 18%,#000 46%),linear-gradient(0deg,transparent 0%,#000 22%);mask-composite:intersect}
+.hero__photo picture{display:block;width:100%;height:100%}
 .hero__photo img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
 .hero__photo::before{content:none}
 .hero__glow{position:absolute;left:-15%;top:-25%;width:75%;height:130%;background:radial-gradient(closest-side,rgba(14,52,98,.55),rgba(2,21,44,0));z-index:0}
@@ -213,6 +215,14 @@ strong{font-weight:600}
 .tcard__role{font-size:13px;color:var(--slate);line-height:1.35;margin-top:2px}
 .tcard blockquote{font-size:15px;line-height:1.6;color:var(--ink)}
 .tcard__stars{color:var(--gold);letter-spacing:3px;font-size:15px}
+.tcard--print{padding:0;gap:0;height:520px;background:#ECE7DF;overflow:hidden;align-items:stretch}
+.tcard__zoom{all:unset;cursor:zoom-in;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.tcard__zoom img{width:100%;height:100%;object-fit:contain;object-position:center}
+.tcard__zoom:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(2,12,26,.88);display:flex;align-items:center;justify-content:center;padding:24px}
+.lightbox[hidden]{display:none}
+.lightbox img{max-width:min(560px,100%);max-height:92vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lightbox__close{position:absolute;top:14px;right:18px;width:48px;height:48px;border-radius:50%;border:0;background:var(--white);color:var(--navy);font-size:28px;line-height:1;cursor:pointer}
 .carousel__nav{display:flex;justify-content:center;gap:12px;margin-top:8px}
 .carousel__nav button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--white);cursor:pointer;display:grid;place-items:center;color:var(--navy)}
 
@@ -266,6 +276,23 @@ strong{font-weight:600}
 .story__role{color:var(--slate);font-size:15px;margin-bottom:18px}
 .story blockquote{font-size:20px;line-height:1.55;border-left:4px solid var(--gold);padding-left:20px}
 
+/* Depoimentos em vídeo: carrossel 4 por vez, capa no mesmo estilo; o YouTube só carrega no clique */
+.vcarousel{margin-top:44px}
+.vcarousel__track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 60px)/4);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 2px 18px;scrollbar-width:none}
+.vcarousel__track::-webkit-scrollbar{display:none}
+.vcard{scroll-snap-align:start}
+.vcard__media{display:block;width:100%;position:relative;aspect-ratio:16/9;border:0;padding:0;border-radius:var(--r-md);overflow:hidden;background:var(--navy);cursor:pointer;font:inherit;color:inherit}
+.vcard__media .poster{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(120deg,var(--navy) 35%,var(--navy-3))}
+.vcard__media .poster img{position:absolute;right:0;top:0;height:100%;width:60%;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent,#000 45%);mask-image:linear-gradient(90deg,transparent,#000 45%)}
+.vcard__media .vsl__play{position:relative;z-index:1;width:58px;height:58px;transition:transform .2s}
+.vcard__media:hover .vsl__play{transform:scale(1.08)}
+.vcard__media small{position:absolute;left:14px;bottom:12px;color:var(--on-navy);font-size:12.5px;z-index:1}
+.vcard__media iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vcard__name{font-family:var(--display);font-size:18px;font-weight:800;margin-top:14px}
+.vcard__role{font-size:14px;color:var(--slate)}
+@media (max-width:1024px){.vcarousel__track{grid-auto-columns:calc((100% - 20px)/2)}}
+@media (max-width:600px){.vcarousel__track{grid-auto-columns:86%;gap:14px}}
+
 /* ========== 08 DIFERENCIAIS ========== */
 .diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
 .diff{background:var(--navy-3);border-radius:var(--r-lg);padding:34px 30px;border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column}
@@ -302,6 +329,9 @@ strong{font-weight:600}
 .wcard__n{font-family:var(--display);font-weight:800;font-size:clamp(48px,5.4vw,68px);line-height:1;color:var(--gold);margin-bottom:10px}
 .wcard__t{font-size:22px;font-weight:700;line-height:1.25;margin-bottom:16px;max-width:24ch}
 .wcard__p{color:var(--on-navy);font-size:16px;margin-bottom:24px}
+.wcard__hl{color:var(--gold)}
+.wcard__note{margin-top:14px;font-size:14.5px;line-height:1.5;color:var(--on-navy);border-left:3px solid var(--gold);padding:4px 0 4px 14px}
+.wcard__note b{color:var(--white)}
 .wrows{margin-top:auto;display:grid;gap:6px;border-radius:var(--r-sm);overflow:hidden}
 .wrow{display:grid;grid-template-columns:156px 1fr;font-size:14.5px;background:rgba(255,255,255,.06)}
 .wrow b{background:var(--gold);color:var(--navy);padding:11px 14px;font-weight:700}
@@ -400,7 +430,7 @@ strong{font-weight:600}
 /* ========== 15 ESPECIALISTA ========== */
 .expert{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
 .expert__photo{position:relative}
-.expert__photo img{border-radius:var(--r-lg);aspect-ratio:1;object-fit:cover;width:100%;height:auto}
+.expert__photo img{border-radius:var(--r-lg);aspect-ratio:4/5;object-fit:cover;width:100%;height:auto}
 .expert__photo .doodle{position:absolute;width:150px;height:110px;right:-46px;bottom:-56px;transform:rotate(14deg)}
 .expert__role{color:var(--gold);font-weight:600;margin-bottom:18px}
 .expert__bio{color:var(--on-navy)}
@@ -476,7 +506,7 @@ strong{font-weight:600}
   .sec{padding:72px 0}
   .hero{min-height:auto}
   .hero__photo{position:relative;width:100%;height:440px;order:1;-webkit-mask-image:linear-gradient(0deg,transparent 0%,#000 45%);mask-image:linear-gradient(0deg,transparent 0%,#000 45%)}
-  .hero__photo img{object-position:50% 12%}
+  .hero__photo img{object-position:50% 14%}
   .hero__photo::before{background:linear-gradient(0deg,var(--navy-2) 0%,rgba(2,21,44,.0) 55%),linear-gradient(180deg,rgba(2,21,44,.7) 0%,rgba(2,21,44,0) 28%)}
   .hero{height:auto;max-height:none}
   .hero__body{order:2;padding:0 0 56px;margin-top:-90px}
@@ -502,7 +532,8 @@ strong{font-weight:600}
 @media (max-width:600px){
   body{font-size:16px}
   .wrap{padding:0 20px}
-  .carousel__track{grid-auto-columns:86%}
+  .carousel__track{grid-auto-columns:78%}
+  .tcard--print{height:460px}
   .stats{grid-template-columns:1fr 1fr;gap:12px}
   .stat{padding:20px 16px}
   .enter{grid-template-columns:1fr}
@@ -597,7 +628,10 @@ strong{font-weight:600}
 <header class="hero" id="hero">
   <div class="hero__glow" aria-hidden="true"></div>
   <div class="hero__photo">
-    <img src="assets/dra-caroline-hero.webp" srcset="assets/dra-caroline-hero-600.webp 600w, assets/dra-caroline-hero.webp 900w" sizes="(max-width:880px) 100vw, 58vw" alt="Dra. Caroline Daitx, médica perita e fundadora do CAEPE" width="900" height="1350" fetchpriority="high" decoding="async">
+    <picture>
+      <source media="(max-width:880px)" srcset="assets/dra-caroline-hero-mobile.webp">
+      <img src="assets/dra-caroline-hero.webp" alt="Dra. Caroline Daitx, médica perita e fundadora do CAEPE" width="900" height="1350" fetchpriority="high" decoding="async">
+    </picture>
   </div>
 
   <div class="hero__body">
@@ -685,73 +719,96 @@ strong{font-weight:600}
 
   <div class="wrap wrap--wide">
     <div class="carousel" id="tcarousel">
-      <div class="carousel__track" id="tcards" tabindex="0" aria-label="Depoimentos de alunos">
-        <article class="tcard">
-          <div class="tcard__head">
-            <img src="assets/aluna-samantha.webp" alt="Dra. Samantha Vidal" width="56" height="56" loading="lazy" decoding="async">
-            <div><div class="tcard__name">Dra. Samantha Vidal</div><div class="tcard__role">Médica, <span style="white-space:nowrap">CRM-SP 235232</span></div></div>
-          </div>
-          <div class="tcard__stars" aria-label="5 estrelas">★★★★★</div>
-          <blockquote>“O curso é o mais completo que já vi para quem realmente deseja se aprofundar na perícia médica. Oferece materiais excelentes para o estudo, tanto em vídeo quanto escritos. A mentora Caroline realmente nos “pega pela mão” e nos auxilia nos primeiros casos. Estava perdida na profissão e agora sinto que finalmente tenho uma direção clara. Recomendo para quem gosta da área e deseja reduzir ou sair totalmente da medicina focada em plantões!”</blockquote>
-        </article>
-        <article class="tcard">
-          <div class="tcard__head">
-            <img src="assets/aluna-mariana.webp" alt="Dra. Mariana Agostini" width="56" height="56" loading="lazy" decoding="async">
-            <div><div class="tcard__name">Dra. Mariana Agostini</div><div class="tcard__role">Médica, <span style="white-space:nowrap">CRM-SC 30074</span></div></div>
-          </div>
-          <div class="tcard__stars" aria-label="5 estrelas">★★★★★</div>
-          <blockquote>“O curso mudou minha visão e perspectiva sobre perícias. Aprendi a ser clara e objetiva, a focar na técnica utilizada e, pasmem, não tenho muitos questionamentos sobre meus laudos! Hoje, ao entregar um laudo, tenho certeza de que consigo mostrar uma visão totalmente técnica, sem deixar de ser humana. Só gratidão pela didática humana da Carol.”</blockquote>
-        </article>
-        <article class="tcard">
-          <div class="tcard__head">
-            <img src="assets/aluno-pedro.webp" alt="Dr. Pedro de Sousa Leite" width="56" height="56" loading="lazy" decoding="async">
-            <div><div class="tcard__name">Dr. Pedro de Sousa Leite</div><div class="tcard__role">Médico perito, <span style="white-space:nowrap">CRM-CE 21651</span></div></div>
-          </div>
-          <div class="tcard__stars" aria-label="5 estrelas">★★★★★</div>
-          <blockquote>“Sou médico há 5 anos e atuo com perícia médica há 3. Estou com a equipe da Carol há cerca de um ano e venho crescendo cada vez mais, tanto como perito oficial quanto na assistência técnica. O curso, junto com a mentoria, facilita o desenvolvimento de laudos mais concretos, adequados e objetivos. É um investimento que vale muito a pena, para o crescimento profissional e pessoal.”</blockquote>
-        </article>
-        <article class="tcard">
-          <div class="tcard__head">
-            <img src="assets/aluna-aline.webp" alt="Dra. Aline Brito" width="56" height="56" loading="lazy" decoding="async">
-            <div><div class="tcard__name">Dra. Aline Brito</div><div class="tcard__role">Médica, <span style="white-space:nowrap">CRM-MG 59564</span></div></div>
-          </div>
-          <div class="tcard__stars" aria-label="5 estrelas">★★★★★</div>
-          <blockquote>“Excelente curso e metodologia! Traz o que precisamos para aplicar na prática imediatamente. Além da qualidade das aulas e do material disponibilizado, a Dra. Carol passa toda a sua vivência aos alunos! Não é só mais um curso: está sendo um divisor de águas na minha carreira!”</blockquote>
-        </article>
-        <article class="tcard">
-          <div class="tcard__head">
-            <img src="assets/aluna-iulle.webp" alt="Dra. Iulle Sanchez" width="56" height="56" loading="lazy" decoding="async">
-            <div><div class="tcard__name">Dra. Iulle Sanchez</div><div class="tcard__role">Médica revalidada</div></div>
-          </div>
-          <div class="tcard__stars" aria-label="5 estrelas">★★★★★</div>
-          <blockquote>“Minha formação médica veio com mais idade e com família constituída, e eu buscava uma atuação que me desafiasse e permitisse mais organização no convívio familiar. Optei pela perícia e pela Medicina Legal e estou cada vez mais apaixonada pela área. Encontrei na Dra. Caroline Daitx e em sua equipe o suporte necessário. Ainda estou no início da jornada, mas já percebo que o curso é fundamental para construir uma base sólida.”</blockquote>
-        </article>
-        <article class="tcard">
-          <div class="tcard__head">
-            <img src="assets/aluna-fernanda.webp" alt="Dra. Fernanda Ruiz" width="56" height="56" loading="lazy" decoding="async">
-            <div><div class="tcard__name">Dra. Fernanda Ruiz</div><div class="tcard__role">Aluna da Dra. Caroline Daitx</div></div>
-          </div>
-          <div class="tcard__stars" aria-label="5 estrelas">★★★★★</div>
-          <blockquote>“O conhecimento totalmente novo que estou adquirindo no curso me fez sair da zona de conforto e entender que existem caminhos mais promissores para minha carreira.”</blockquote>
-        </article>
-        <article class="tcard">
-          <div class="tcard__head">
-            <img src="assets/aluno-fernando.webp" alt="Dr. Fernando Pereira Frassetto" width="56" height="56" loading="lazy" decoding="async">
-            <div><div class="tcard__name">Dr. Fernando Pereira Frassetto</div><div class="tcard__role">Aluno da Dra. Caroline Daitx</div></div>
-          </div>
-          <div class="tcard__stars" aria-label="5 estrelas">★★★★★</div>
-          <blockquote>“O curso me proporcionou uma visão mais clara sobre as diferentes áreas de atuação na perícia e as particularidades de cada uma delas.”</blockquote>
-        </article>
-        <article class="tcard">
-          <div class="tcard__head">
-            <img src="assets/aluna-yeniley.webp" alt="Dra. Yeniley Miranda Pedroso" width="56" height="56" loading="lazy" decoding="async">
-            <div><div class="tcard__name">Dra. Yeniley Miranda Pedroso</div><div class="tcard__role">Aluna e mentorada da Dra. Caroline Daitx</div></div>
-          </div>
-          <div class="tcard__stars" aria-label="5 estrelas">★★★★★</div>
-          <blockquote>“A mentoria me proporcionou conhecimento prático de altíssima qualidade e abriu novas portas na minha carreira!”</blockquote>
-        </article>
-        <!-- Para adicionar depoimentos: duplique um <article class="tcard"> e troque foto, nome, especialidade e texto. -->
+      <div class="carousel__track" id="tcards" tabindex="0" aria-label="Depoimentos de alunos (prints)">
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-01.webp" aria-label="Ampliar depoimento 1">
+            <img src="assets/dep/depoimento-01.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="977" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-02.webp" aria-label="Ampliar depoimento 2">
+            <img src="assets/dep/depoimento-02.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="977" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-03.webp" aria-label="Ampliar depoimento 3">
+            <img src="assets/dep/depoimento-03.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="872" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-04.webp" aria-label="Ampliar depoimento 4">
+            <img src="assets/dep/depoimento-04.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="187" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-05.webp" aria-label="Ampliar depoimento 5">
+            <img src="assets/dep/depoimento-05.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="932" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-06.webp" aria-label="Ampliar depoimento 6">
+            <img src="assets/dep/depoimento-06.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="1042" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-07.webp" aria-label="Ampliar depoimento 7">
+            <img src="assets/dep/depoimento-07.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="1042" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-08.webp" aria-label="Ampliar depoimento 8">
+            <img src="assets/dep/depoimento-08.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="974" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-09.webp" aria-label="Ampliar depoimento 9">
+            <img src="assets/dep/depoimento-09.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="681" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-10.webp" aria-label="Ampliar depoimento 10">
+            <img src="assets/dep/depoimento-10.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="1042" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-11.webp" aria-label="Ampliar depoimento 11">
+            <img src="assets/dep/depoimento-11.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="767" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-12.webp" aria-label="Ampliar depoimento 12">
+            <img src="assets/dep/depoimento-12.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="1042" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-13.webp" aria-label="Ampliar depoimento 13">
+            <img src="assets/dep/depoimento-13.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="753" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-14.webp" aria-label="Ampliar depoimento 14">
+            <img src="assets/dep/depoimento-14.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="1042" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-15.webp" aria-label="Ampliar depoimento 15">
+            <img src="assets/dep/depoimento-15.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="1042" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-16.webp" aria-label="Ampliar depoimento 16">
+            <img src="assets/dep/depoimento-16.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="977" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <figure class="tcard tcard--print">
+          <button type="button" class="tcard__zoom" data-full="assets/dep/depoimento-17.webp" aria-label="Ampliar depoimento 17">
+            <img src="assets/dep/depoimento-17.webp" alt="Print de depoimento de aluna do CAEPE" width="560" height="474" loading="lazy" decoding="async">
+          </button>
+        </figure>
+        <!-- Para adicionar: salve o print em assets/dep/ e duplique um <figure class="tcard tcard--print">. -->
       </div>
+      <!-- ampliação do print -->
+      <div class="lightbox" id="lightbox" hidden><button type="button" class="lightbox__close" aria-label="Fechar">×</button><img alt="Depoimento ampliado"></div>
       <div class="carousel__nav">
         <button type="button" data-dir="-1" aria-label="Depoimento anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
         <button type="button" data-dir="1" aria-label="Próximo depoimento"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -767,20 +824,22 @@ strong{font-weight:600}
   <div class="wrap">
     <div class="why2__head">
       <span class="pill">Por que escolher a Perícia Médica?</span>
-      <h2 class="why2__title" id="t-porque">3 esferas da Justiça.<br>2 formas de atuar.<br><em>E um laudo esperando pelo seu olhar.</em></h2>
+      <h2 class="why2__title" id="t-porque">Várias esferas da Justiça.<br>2 formas de atuar.<br><em>E um laudo esperando pelo seu olhar.</em></h2>
       <p>Toda decisão judicial que depende de uma questão médica passa por um laudo, e quem assina esse laudo é um médico.<br>Entenda por que esse caminho faz sentido, com informações que você pode verificar.</p>
     </div>
 
     <div class="why2__grid">
       <article class="wcard">
         <span class="wcard__tag">Mais áreas = mais possibilidades</span>
-        <h3 class="wcard__t">Esferas da Justiça com demanda por perícia médica</h3>
+        <h3 class="wcard__t"><span class="wcard__hl">Algumas</span> das esferas da Justiça com demanda por perícia médica</h3>
         <p class="wcard__p">A perícia médica não é um nicho de uma área só. Ela está presente em processos de naturezas diferentes, cada um com perguntas próprias que só um médico preparado consegue responder.</p>
         <div class="wrows">
           <div class="wrow"><b>Cível</b><span>Erro médico, danos corporais, seguros e interdições</span></div>
           <div class="wrow"><b>Trabalhista</b><span>Doença ocupacional, acidente de trabalho e nexo causal</span></div>
           <div class="wrow"><b>Previdenciária</b><span>Incapacidade laboral e benefícios por incapacidade</span></div>
+          <div class="wrow"><b>Criminal</b><span>Lesão corporal, causa de morte e outras questões médicas em processos criminais</span></div>
         </div>
+        <p class="wcard__note"><b>Sem concurso de médico legista:</b> mesmo na área criminal, você pode atuar como assistente técnico, contratado por uma das partes, sem ser servidor da polícia científica.</p>
       </article>
 
       <article class="wcard">
@@ -850,57 +909,60 @@ strong{font-weight:600}
      DOBRA 07 — DEPOIMENTOS APROFUNDADOS EM VÍDEO
      ============================================================ -->
 <section class="sec" id="historias" aria-labelledby="t-historias">
-  <div class="wrap">
+  <div class="wrap wrap--wide">
     <h2 class="h2 center" id="t-historias">Vamos deixar alguns dos nossos alunos falarem por nós:</h2>
-
-    <article class="story">
-      <div class="story__media">
-        <!-- VTURB: substitua a <div class="poster"> pelo embed do vídeo da Dra. Fernanda -->
-        <div class="poster"><img src="assets/aluna-fernanda.webp" alt="" loading="lazy" decoding="async"><span class="vsl__play"><svg width="28" height="28"><use href="#i-play"/></svg></span><small>Clique para assistir</small></div>
+    <!-- Depoimentos em vídeo (YouTube). Para adicionar: duplique um <article class="vcard">,
+         troque o código do vídeo em data-yt (o que vem depois de "watch?v=") e a foto da capa. -->
+    <div class="vcarousel" id="vcarousel">
+      <div class="vcarousel__track" id="vtrack" tabindex="0" aria-label="Depoimentos em vídeo">
+        <article class="vcard">
+          <button type="button" class="vcard__media" data-yt="CDwSLL6TayU" aria-label="Assistir ao depoimento de Dra. Vanessa Théme">
+            <span class="poster"><img src="assets/video-vanessa.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="vsl__play"><svg width="26" height="26"><use href="#i-play"/></svg></span><small>Clique para assistir</small></span>
+          </button>
+          <h3 class="vcard__name">Dra. Vanessa Théme</h3>
+          <p class="vcard__role">Aluna CAEPE</p>
+        </article>
+        <article class="vcard">
+          <button type="button" class="vcard__media" data-yt="VEOqwMtxXKk" aria-label="Assistir ao depoimento de Dra. Leticia Maria">
+            <span class="poster"><img src="assets/video-leticia.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="vsl__play"><svg width="26" height="26"><use href="#i-play"/></svg></span><small>Clique para assistir</small></span>
+          </button>
+          <h3 class="vcard__name">Dra. Leticia Maria</h3>
+          <p class="vcard__role">Aluna CAEPE</p>
+        </article>
+        <article class="vcard">
+          <button type="button" class="vcard__media" data-yt="SX0m4NMNrgw" aria-label="Assistir ao depoimento de Dra. Thaina Cristina">
+            <span class="poster"><img src="assets/video-thaina.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="vsl__play"><svg width="26" height="26"><use href="#i-play"/></svg></span><small>Clique para assistir</small></span>
+          </button>
+          <h3 class="vcard__name">Dra. Thaina Cristina</h3>
+          <p class="vcard__role">Aluna CAEPE</p>
+        </article>
+        <article class="vcard">
+          <button type="button" class="vcard__media" data-yt="DJTvCR_7Xjg" aria-label="Assistir ao depoimento de Dra. Mariana Agostini">
+            <span class="poster"><img src="assets/video-mariana-agostini.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="vsl__play"><svg width="26" height="26"><use href="#i-play"/></svg></span><small>Clique para assistir</small></span>
+          </button>
+          <h3 class="vcard__name">Dra. Mariana Agostini</h3>
+          <p class="vcard__role">Aluna CAEPE</p>
+        </article>
+        <article class="vcard">
+          <button type="button" class="vcard__media" data-yt="BZHkuJDUnc4" aria-label="Assistir ao depoimento de Dra. Aline Brito">
+            <span class="poster"><img src="assets/video-aline.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="vsl__play"><svg width="26" height="26"><use href="#i-play"/></svg></span><small>Clique para assistir</small></span>
+          </button>
+          <h3 class="vcard__name">Dra. Aline Brito</h3>
+          <p class="vcard__role">Aluna CAEPE</p>
+        </article>
+        <article class="vcard">
+          <button type="button" class="vcard__media" data-yt="pffI__7r9OQ" aria-label="Assistir ao depoimento de Dra. Mariana Alvarez">
+            <span class="poster"><img src="assets/video-mariana-alvarez.webp" alt="" width="480" height="480" loading="lazy" decoding="async"><span class="vsl__play"><svg width="26" height="26"><use href="#i-play"/></svg></span><small>Clique para assistir</small></span>
+          </button>
+          <h3 class="vcard__name">Dra. Mariana Alvarez</h3>
+          <p class="vcard__role">Aluna CAEPE</p>
+        </article>
       </div>
-      <div>
-        <h3 class="story__name">Dra. Fernanda Ruiz</h3>
-        <p class="story__role">Aluna da Dra. Caroline Daitx</p>
-        <blockquote>“O conhecimento totalmente novo que estou adquirindo no curso me fez sair da zona de conforto e entender que existem caminhos mais promissores para minha carreira.”</blockquote>
+      <div class="carousel__nav">
+        <button type="button" data-vdir="-1" aria-label="Vídeo anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" data-vdir="1" aria-label="Próximo vídeo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
-    </article>
-
-    <article class="story story--rev">
-      <div class="story__media">
-        <!-- VTURB: substitua a <div class="poster"> pelo embed do vídeo do Dr. Fernando -->
-        <div class="poster"><img src="assets/aluno-fernando.webp" alt="" loading="lazy" decoding="async"><span class="vsl__play"><svg width="28" height="28"><use href="#i-play"/></svg></span><small>Clique para assistir</small></div>
-      </div>
-      <div>
-        <h3 class="story__name">Dr. Fernando Pereira Frassetto</h3>
-        <p class="story__role">Aluno da Dra. Caroline Daitx</p>
-        <blockquote>“O curso me proporcionou uma visão mais clara sobre as diferentes áreas de atuação na perícia e as particularidades de cada uma delas.”</blockquote>
-      </div>
-    </article>
-
-    <article class="story">
-      <div class="story__media">
-        <!-- VTURB: substitua a <div class="poster"> pelo embed do vídeo da Dra. Yeniley -->
-        <div class="poster"><img src="assets/aluna-yeniley.webp" alt="" loading="lazy" decoding="async"><span class="vsl__play"><svg width="28" height="28"><use href="#i-play"/></svg></span><small>Clique para assistir</small></div>
-      </div>
-      <div>
-        <h3 class="story__name">Dra. Yeniley Miranda Pedroso</h3>
-        <p class="story__role">Aluna e mentorada da Dra. Caroline Daitx</p>
-        <blockquote>“A mentoria me proporcionou conhecimento prático de altíssima qualidade e abriu novas portas na minha carreira!”</blockquote>
-      </div>
-    </article>
-
-    <!-- 4º DEPOIMENTO (texto à esquerda / vídeo à direita): descomente e preencha quando tiver o caso.
-    <article class="story story--rev">
-      <div class="story__media">
-        <div class="poster"><img src="assets/NOME-DA-FOTO.jpg" alt="" loading="lazy" decoding="async"><span class="vsl__play"><svg width="28" height="28"><use href="#i-play"/></svg></span><small>Clique para assistir</small></div>
-      </div>
-      <div>
-        <h3 class="story__name">Dr(a). Nome</h3>
-        <p class="story__role">Especialidade · cidade</p>
-        <blockquote>“Depoimento.”</blockquote>
-      </div>
-    </article>
-    -->
+    </div>
   </div>
 </section>
 
@@ -1158,7 +1220,7 @@ strong{font-weight:600}
 <section class="sec sec--navy" id="especialista" aria-labelledby="t-especialista">
   <div class="wrap expert">
     <div class="expert__photo">
-      <img src="assets/dra-caroline-bio.webp" alt="Dra. Caroline Daitx" width="800" height="800" loading="lazy" decoding="async">
+      <img src="assets/dra-caroline-especialista.webp" alt="Dra. Caroline Daitx" width="720" height="900" loading="lazy" decoding="async">
       <svg class="doodle" viewBox="0 0 160 120" aria-hidden="true"><use href="#doodle-loop"/></svg>
     </div>
     <div>
@@ -1372,6 +1434,46 @@ strong{font-weight:600}
   ['mouseleave','focusout','touchend'].forEach(function(ev){ wrapC.addEventListener(ev, function(){ paused = false; }); });
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
     setInterval(function(){ if(!paused && !document.hidden) go(1); }, 4000);
+  }
+
+  // Depoimentos em vídeo: setas (com volta ao início) e YouTube carregado só ao clicar
+  var vtrack = document.getElementById('vtrack');
+  if(vtrack){
+    document.querySelectorAll('[data-vdir]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var dir = Number(btn.getAttribute('data-vdir'));
+        var c = vtrack.querySelector('.vcard'); var st = c ? c.getBoundingClientRect().width + 20 : 300;
+        var max = vtrack.scrollWidth - vtrack.clientWidth - 4;
+        if(dir > 0 && vtrack.scrollLeft >= max){ vtrack.scrollTo({left:0, behavior:'smooth'}); return; }
+        if(dir < 0 && vtrack.scrollLeft <= 4){ vtrack.scrollTo({left:vtrack.scrollWidth, behavior:'smooth'}); return; }
+        vtrack.scrollBy({left: st * dir, behavior:'smooth'});
+      });
+    });
+    vtrack.querySelectorAll('[data-yt]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        if(btn.querySelector('iframe')) return;
+        var f = document.createElement('iframe');
+        f.src = 'https://www.youtube-nocookie.com/embed/' + btn.getAttribute('data-yt') + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+        f.title = btn.getAttribute('aria-label');
+        f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        f.allowFullscreen = true;
+        btn.innerHTML = ''; btn.appendChild(f);
+        if(window.fbq) fbq('trackCustom','DepoimentoVideo',{video:btn.getAttribute('data-yt')});
+      });
+    });
+  }
+
+  // Ampliar print de depoimento
+  var lb = document.getElementById('lightbox');
+  if(lb){
+    var lbImg = lb.querySelector('img');
+    document.getElementById('tcards').addEventListener('click', function(ev){
+      var btn = ev.target.closest('.tcard__zoom'); if(!btn) return;
+      lbImg.src = btn.getAttribute('data-full'); lb.hidden = false; paused = true; lb.querySelector('button').focus();
+    });
+    function closeLb(){ lb.hidden = true; lbImg.removeAttribute('src'); paused = false; }
+    lb.addEventListener('click', function(ev){ if(ev.target === lb || ev.target.classList.contains('lightbox__close')) closeLb(); });
+    document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape' && !lb.hidden) closeLb(); });
   }
 
   var y = document.getElementById('ano'); if(y) y.textContent = new Date().getFullYear();
